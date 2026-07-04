@@ -53,6 +53,27 @@ The whole phase graph is in **[`WORKFLOW.md`](WORKFLOW.md)**. The design rationa
 - **Portable state.** The `planning/` folder is the crown jewel; `export`/`continue` move it between sessions and teammates as a single JSON bundle.
 - **Token budget is a forcing function.** Every file declares a budget; every invocation stays under 60K.
 
+## Worked examples
+
+Two runs live in [`examples/`](examples/):
+
+| Example | What it is |
+|---|---|
+| [`internal-tool-run/`](examples/internal-tool-run/) — **DeployGate** | An *authored* fixture: an internal prod-deploy approval tool. Hand-built to exercise the harder paths — a justified ceiling deviation (Postgres over SQLite), a PM-vs-Security separation-of-duties conflict, a compliance section correctly *omitted* for an internal tool. |
+| [`ats-talentos-run/`](examples/ats-talentos-run/) — **Recruiting-agency ATS** | A **real run** (the methodology executed end-to-end, not hand-written): an MVP applicant tracking system that reuses an existing service, [TalentOS](https://github.com/shreyas12/talentOS), to rank resumes on dump. Includes the full `planning/` folder, an **amendment** record, and two rendered docs. Start with its [`README`](examples/ats-talentos-run/README.md). |
+
+## What the first real run showed
+
+Running IdeaFoundry on the ATS idea (above) surfaced concrete evidence for the design bets — the parts that separate this from a single well-written planning prompt:
+
+- **Discovery catches scope creep instead of nodding along.** Asked for "the one success metric," the user answered *"all of the above."* The Skill recorded a ranked **primary + secondary**, not three co-equal goals, and sorted auto-posting / scheduling / analytics into `non_goals`. Naming the creep is the feature.
+- **Handing it a genuine open decision is where it earns its keep.** The build-vs-reuse call on TalentOS was left *to the Skill*. The Engineer specialist ruled **reuse via a thin adapter**, citing Brief IDs (`ng4`/`c4`), and the Consensus **simplifier independently confirmed** the two-service topology was Brief-grounded rather than over-engineering. That reasoning chain is the payoff of the ceiling + simplifier machinery.
+- **Context isolation makes agreement mean something.** PM, Engineer, and Security each re-anchor from *files, not chat history* — so when all three independently flagged the same "few weeks" timeline problem, Consensus could fuse it into **one batched escalation**. Convergence across isolated contexts is signal; one voice repeated three times is not.
+- **Amendment is a targeted re-plan, not a rerun — and that's the hard part.** When the user resolved the two escalations, two changed Brief IDs drove the staleness walk to rerun **only PM + UX**, leaving **Engineer + Security byte-identical** (their outputs didn't trace to the changed content) and re-rendering **only 2 of 6** docs. A naive "rerun everything touching goal *g2*" would have regenerated all four — the over-marking failure the traceability rules explicitly guard against. This is the differentiated behavior; the run is proof it fires.
+- **The lean path stays cheap.** Rendering only the two eager docs kept the run **well under the 60K budget** (est. ~40–50K). Rendering all docs is what pushes cost up — hence lazy-by-default.
+
+**Honest caveat.** This run was executed by Claude acting as IdeaFoundry's orchestrator, faithfully following the Skill's files — a genuine end-to-end exercise of the methodology, but **not** a sandboxed, instrumented Skill invocation. So the token figures are estimates: the [`PLAN.md`](PLAN.md) §23 calibration caveat is **narrowed, not closed**. Closing it fully needs the Skill installed and invoked with token instrumentation.
+
 ## Repository layout
 
 ```
@@ -65,7 +86,7 @@ ideafoundry/
   consensus/            coordinator (conflict detection, decisions, simplifier)
   generation/           document generator + templates (each declares requires:/loads:)
   rules/                planning-rules, mvp-rules, RECOVERY (loaded only on error)
-  examples/             one worked Internal-Tool run (on-disk only, zero runtime tokens)
+  examples/             two worked runs: DeployGate (authored) + ATS/TalentOS (real, with amendment)
   evals/                eval harness + fixtures
 ```
 
