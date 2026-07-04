@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IdeaFoundry — Planning Report · Recruiting-Agency ATS × TalentOS</title>
+<style>
+  :root{
+    --bg:#EEF0F3; --panel:#FFFFFF; --panel-2:#F6F8FA;
+    --ink:#1B2029; --muted:#59626F; --faint:#8A93A1;
+    --line:#DBE0E7; --line-strong:#C4CBD4;
+    --accent:#B26B1F; --accent-ink:#8A5214; --accent-soft:#F4E7D3;
+    --good:#2F7D52; --good-soft:#E1F0E7;
+    --dim:#8A93A1; --dim-soft:#EBEEF1;
+    --shadow:0 1px 2px rgba(20,28,40,.05),0 8px 28px rgba(20,28,40,.06);
+    --font-sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --font-mono:ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#0E1117; --panel:#161B24; --panel-2:#1B212C;
+      --ink:#E7EBF1; --muted:#9BA6B5; --faint:#6B7788;
+      --line:#262D39; --line-strong:#333C4A;
+      --accent:#E0A03A; --accent-ink:#F0BC61; --accent-soft:#2A2214;
+      --good:#4FA772; --good-soft:#16241C;
+      --dim:#6B7788; --dim-soft:#1B212C;
+      --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#EEF0F3; --panel:#FFFFFF; --panel-2:#F6F8FA;
+    --ink:#1B2029; --muted:#59626F; --faint:#8A93A1;
+    --line:#DBE0E7; --line-strong:#C4CBD4;
+    --accent:#B26B1F; --accent-ink:#8A5214; --accent-soft:#F4E7D3;
+    --good:#2F7D52; --good-soft:#E1F0E7; --dim:#8A93A1; --dim-soft:#EBEEF1;
+    --shadow:0 1px 2px rgba(20,28,40,.05),0 8px 28px rgba(20,28,40,.06);
+  }
+  :root[data-theme="dark"]{
+    --bg:#0E1117; --panel:#161B24; --panel-2:#1B212C;
+    --ink:#E7EBF1; --muted:#9BA6B5; --faint:#6B7788;
+    --line:#262D39; --line-strong:#333C4A;
+    --accent:#E0A03A; --accent-ink:#F0BC61; --accent-soft:#2A2214;
+    --good:#4FA772; --good-soft:#16241C; --dim:#6B7788; --dim-soft:#1B212C;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:var(--font-sans);line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(circle at 1px 1px,var(--line) 1px,transparent 0);
+    background-size:26px 26px;
+  }
+  .wrap{max-width:920px;margin:0 auto;padding:44px 28px 56px}
+  .mono{font-family:var(--font-mono)}
+  .id{font-family:var(--font-mono);font-size:.82em;color:var(--accent-ink);
+      background:var(--accent-soft);padding:1px 6px;border-radius:5px;white-space:nowrap}
+
+  /* ---- header ---- */
+  header{margin-bottom:26px}
+  .brandrow{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+  .mark{width:30px;height:30px;flex:0 0 auto}
+  .wordmark{font-weight:800;letter-spacing:-.02em;font-size:19px}
+  .wordmark b{color:var(--accent)}
+  .eyebrow{margin-left:auto;font-family:var(--font-mono);font-size:11px;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+  h1{font-size:clamp(28px,4.6vw,42px);line-height:1.08;letter-spacing:-.025em;
+     font-weight:800;margin:0 0 12px;text-wrap:balance}
+  h1 .thin{color:var(--muted);font-weight:600}
+  .metaline{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;
+    font-family:var(--font-mono);font-size:12px;color:var(--muted)}
+  .metaline .dot{color:var(--line-strong)}
+  .chip-state{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);
+    font-size:11px;padding:3px 9px;border-radius:20px;border:1px solid var(--line-strong)}
+  .chip-state.green{color:var(--good);border-color:var(--good);background:var(--good-soft)}
+
+  /* ---- summary tiles ---- */
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:26px 0 30px}
+  .tile{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:16px 16px 14px;box-shadow:var(--shadow)}
+  .tile .num{font-size:27px;font-weight:800;letter-spacing:-.02em;
+    font-variant-numeric:tabular-nums;line-height:1}
+  .tile .num small{font-size:14px;font-weight:600;color:var(--muted)}
+  .tile .lab{margin-top:7px;font-size:11.5px;color:var(--muted);
+    letter-spacing:.02em;line-height:1.35}
+  .tile .lab b{color:var(--ink);font-weight:700}
+
+  /* ---- panels ---- */
+  section{background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    padding:22px 24px;margin-bottom:16px;box-shadow:var(--shadow)}
+  .kicker{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--accent);margin:0 0 10px;font-weight:600}
+  h2{font-size:19px;font-weight:700;letter-spacing:-.01em;margin:0 0 6px}
+  p{margin:0 0 10px}
+  p.lead{color:var(--muted);font-size:14.5px}
+  .hr{height:1px;background:var(--line);margin:16px 0}
+
+  /* ---- roster chips ---- */
+  .roster{display:flex;flex-direction:column;gap:8px}
+  .rrow{display:flex;gap:12px;align-items:baseline;padding:9px 12px;border-radius:9px;
+    background:var(--panel-2);border:1px solid var(--line)}
+  .rrow .role{font-weight:700;font-size:13.5px;min-width:78px;flex:0 0 auto}
+  .rrow .why{font-size:12.5px;color:var(--muted);line-height:1.4}
+  .tag{font-family:var(--font-mono);font-size:10.5px;font-weight:600;padding:2px 8px;
+    border-radius:20px;flex:0 0 auto;letter-spacing:.03em}
+  .tag.in{color:var(--good);background:var(--good-soft);border:1px solid var(--good)}
+  .tag.out{color:var(--dim);background:var(--dim-soft);border:1px solid var(--line-strong)}
+
+  /* ---- escalation / verdict callouts ---- */
+  .callout{display:flex;gap:13px;padding:14px 16px;border-radius:10px;
+    background:var(--panel-2);border:1px solid var(--line);align-items:flex-start}
+  .callout+.callout{margin-top:10px}
+  .callout .icn{width:22px;height:22px;flex:0 0 auto;margin-top:1px}
+  .callout .body{font-size:13px}
+  .callout .body b{font-weight:700}
+  .callout .verdict{font-family:var(--font-mono);font-size:11px;font-weight:600;
+    color:var(--good);display:inline-block;margin-top:3px}
+  .conv{display:flex;gap:6px;flex-wrap:wrap;margin:2px 0 4px}
+  .conv .c{font-family:var(--font-mono);font-size:10.5px;padding:2px 7px;border-radius:6px;
+    background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
+
+  /* ---- amendment hero ---- */
+  .amend{background:linear-gradient(180deg,var(--panel),var(--panel-2))}
+  .amend .walk{font-family:var(--font-mono);font-size:12px;color:var(--muted);margin-bottom:16px}
+  .amend .walk b{color:var(--accent-ink)}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}
+  .spec{border-radius:11px;padding:14px 13px;border:1px solid var(--line);position:relative;overflow:hidden}
+  .spec.reran{background:var(--accent-soft);border-color:var(--accent)}
+  .spec.reran::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+  .spec.same{background:var(--dim-soft);border-style:dashed;border-color:var(--line-strong)}
+  .spec .sr{font-weight:700;font-size:13.5px}
+  .spec .st{font-family:var(--font-mono);font-size:10px;letter-spacing:.06em;
+    text-transform:uppercase;margin-top:4px;font-weight:600}
+  .spec.reran .st{color:var(--accent)}
+  .spec.same .st{color:var(--dim)}
+  .spec .sd{font-size:11px;color:var(--muted);margin-top:7px;line-height:1.4}
+  .spec.same .sr,.spec.same .sd{opacity:.72}
+  .legend{display:flex;gap:16px;margin-top:14px;font-size:11.5px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:11px;height:11px;border-radius:3px;flex:0 0 auto}
+  .sw.a{background:var(--accent)}.sw.d{background:var(--dim);border:1px dashed var(--line-strong)}
+
+  /* ---- traceability strip ---- */
+  .trace{display:flex;flex-direction:column;gap:7px}
+  .tline{display:flex;align-items:center;gap:9px;font-size:12.5px;
+    padding:7px 11px;background:var(--panel-2);border:1px solid var(--line);border-radius:8px}
+  .tline .arw{color:var(--faint);font-family:var(--font-mono)}
+  .tline .tk{font-family:var(--font-mono);font-weight:600;font-size:11.5px}
+
+  footer{margin-top:26px;text-align:center;font-family:var(--font-mono);
+    font-size:11px;color:var(--faint);letter-spacing:.04em}
+  footer a{color:var(--accent-ink);text-decoration:none}
+  @media (max-width:680px){
+    .tiles{grid-template-columns:repeat(2,1fr)}
+    .grid4{grid-template-columns:repeat(2,1fr)}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brandrow">
+      <svg class="mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="1.5" y="1.5" width="29" height="29" rx="7" stroke="var(--accent)" stroke-width="1.6"/>
+        <path d="M9 22 L16 8 L23 22" stroke="var(--accent)" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+        <path d="M12.2 16 H19.8" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+      <span class="wordmark">Idea<b>Foundry</b></span>
+      <span class="eyebrow">Planning Report</span>
+    </div>
+
+    <h1>Recruiting-Agency ATS <span class="thin">×</span> TalentOS</h1>
+    <div class="metaline">
+      <span>profile: <b style="color:var(--ink)">internal-tool</b></span><span class="dot">·</span>
+      <span>roster: pm · engineer · ux · security</span><span class="dot">·</span>
+      <span class="chip-state green">● confidence green</span><span class="dot">·</span>
+      <span>amended <span style="color:var(--ink)">001</span></span>
+    </div>
+  </header>
+
+  <div class="tiles">
+    <div class="tile">
+      <div class="num">4<small>/5</small></div>
+      <div class="lab"><b>Roster</b> — QA reasoned out, not defaulted</div>
+    </div>
+    <div class="tile">
+      <div class="num">9</div>
+      <div class="lab"><b>MVP tickets</b> — every one traced to a goal</div>
+    </div>
+    <div class="tile">
+      <div class="num">2</div>
+      <div class="lab"><b>Escalations</b> — batched, both resolved</div>
+    </div>
+    <div class="tile">
+      <div class="num">~45<small>K</small></div>
+      <div class="lab"><b>Est. tokens</b> — under the 60K cap</div>
+    </div>
+  </div>
+
+  <section>
+    <p class="kicker">The idea</p>
+    <h2>A shared pipeline for small agencies — ranking delegated, not rebuilt</h2>
+    <p class="lead">A web ATS for 2–10-person recruiting agencies that replaces spreadsheet-and-email
+    chaos with one shared board, and auto-ranks candidates the moment resumes are dumped into a job
+    by delegating to <b style="color:var(--ink)">TalentOS</b> — an existing hiring-intelligence
+    service — rather than building a ranking engine <span class="id">ng4</span>.</p>
+  </section>
+
+  <section>
+    <p class="kicker">Roster — right-sized, with reasons</p>
+    <div class="roster">
+      <div class="rrow"><span class="tag in">IN</span><span class="role">PM</span><span class="why">Owns the MVP cut &amp; scope discipline — central given the explicit scope-creep signal.</span></div>
+      <div class="rrow"><span class="tag in">IN</span><span class="role">Engineer</span><span class="why">Owns feasibility — and the build-vs-reuse call on TalentOS <span class="id">c4</span>, left open on purpose.</span></div>
+      <div class="rrow"><span class="tag in">IN</span><span class="role">Security</span><span class="why">Mandatory — hiring domain, candidate PII, and an external client-facing surface.</span></div>
+      <div class="rrow"><span class="tag in">IN</span><span class="role">UX</span><span class="why">Promoted in — two user types and a real daily recruiter workflow.</span></div>
+      <div class="rrow"><span class="tag out">OUT</span><span class="role">QA</span><span class="why">Droppable for a solo, few-weeks MVP; PM acceptance criteria carry release confidence. Revisit before a 2nd agency.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="kicker">Consensus — one batched escalation, not three complaints</p>
+    <div class="callout">
+      <svg class="icn" viewBox="0 0 24 24" fill="none"><path d="M12 3l9 16H3z" stroke="var(--accent)" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 10v4M12 16.5v.5" stroke="var(--accent)" stroke-width="1.7" stroke-linecap="round"/></svg>
+      <div class="body">
+        <b>Convergent timeline challenge.</b> Three specialists — in isolated contexts, re-anchoring
+        from the Brief, not the chat — independently flagged the same problem: the client view + integration
+        won't fit <span class="id">c2</span> "a few weeks."
+        <div class="conv"><span class="c">pm</span><span class="c">engineer</span><span class="c">security</span><span class="c" style="background:transparent;color:var(--faint)">→ fused into es1</span></div>
+        <span class="verdict">✓ Resolved es1 = B — recruiter-only MVP; client view → v1.1</span>
+      </div>
+    </div>
+    <div class="callout">
+      <svg class="icn" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="var(--good)" stroke-width="1.7"/><path d="M8 12l3 3 5-6" stroke="var(--good)" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="body">
+        <b>Build-vs-reuse, decided by the Skill.</b> The Engineer ruled <b>reuse TalentOS via a thin
+        adapter</b> (job ↔ project), citing <span class="id">ng4</span> <span class="id">c4</span> — and the
+        Consensus simplifier <i>independently confirmed</i> the two-service topology was Brief-grounded, not over-engineering.
+        <span class="verdict">✓ Accepted — passed the simplifier, zero cut candidates</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="amend">
+    <p class="kicker">Amendment 001 — a targeted re-plan, not a rerun</p>
+    <div class="walk">staleness walk: <b>2 changed Brief IDs</b> (<span class="id">g5</span> <span class="id">ng5</span>) → reran <b>2 of 4</b> specialists → re-rendered <b>2 of 6</b> docs</div>
+    <div class="grid4">
+      <div class="spec reran"><div class="sr">PM</div><div class="st">Reran</div><div class="sd">Feature set changed — added the fairness surface, moved client view to v1.1.</div></div>
+      <div class="spec reran"><div class="sr">UX</div><div class="st">Reran</div><div class="sd">New user-facing surface — added the fairness tab to the candidate drawer.</div></div>
+      <div class="spec same"><div class="sr">Engineer</div><div class="st">Byte-identical</div><div class="sd">Fairness is one more TalentOS endpoint the adapter already reaches — no architectural move.</div></div>
+      <div class="spec same"><div class="sr">Security</div><div class="st">Byte-identical</div><div class="sd">This was its own recommendation, now adopted — analysis unchanged.</div></div>
+    </div>
+    <div class="legend">
+      <span><span class="sw a"></span>Reran against the amended Brief</span>
+      <span><span class="sw d"></span>Untouched — didn't trace to the change</span>
+    </div>
+    <div class="hr"></div>
+    <p class="lead" style="margin:0">A naive "rerun everything touching goal <span class="id">g2</span>" would have regenerated all four.
+    The walk reran only what actually depended on the change — the differentiated behavior the traceability
+    rules exist to protect.</p>
+  </section>
+
+  <section>
+    <p class="kicker">Traceability — every ticket answers "why does this exist?"</p>
+    <div class="trace">
+      <div class="tline"><span class="tk">T-04</span> Auto-rank on dump <span class="arw">→ serves</span> <span class="id">g2</span> auto-rank without manual triage</div>
+      <div class="tline"><span class="tk">T-07</span> Fairness / defensibility surface <span class="arw">→ serves</span> <span class="id">g5</span> defensible rank <span style="color:var(--faint);font-family:var(--font-mono);font-size:11px">· added by amendment 001</span></div>
+      <div class="tline"><span class="tk">T-09</span> Double-contact guard <span class="arw">→ serves</span> <span class="id">g3</span> no two recruiters on one candidate</div>
+    </div>
+  </section>
+
+  <footer>
+    Generated by IdeaFoundry · a real run in <a href="https://github.com/shreyas12/ideafoundry">github.com/shreyas12/ideafoundry</a> · schema v1
+  </footer>
+
+</div>
+</body>
+</html>

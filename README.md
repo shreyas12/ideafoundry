@@ -6,6 +6,13 @@ IdeaFoundry is a [Claude Skill](https://docs.claude.com/en/docs/claude-code/skil
 
 It scales **down** to an indie dev's weekend hack and **up** to a regulated production build without changing what it is — same methodology, a different roster.
 
+<p align="center">
+  <a href="examples/ats-talentos-run/report.html">
+    <img src="examples/ats-talentos-run/report.png" alt="IdeaFoundry planning report for a Recruiting-Agency ATS that reuses TalentOS — roster, consensus escalations, and the Amendment 001 diff showing only 2 of 4 specialists reran" width="820">
+  </a>
+</p>
+<p align="center"><sub>A real run — an MVP ATS that reuses <a href="https://github.com/shreyas12/talentOS">TalentOS</a> to rank resumes. Full package in <a href="examples/ats-talentos-run/"><code>examples/ats-talentos-run/</code></a> · <a href="examples/ats-talentos-run/report.html">open the report</a></sub></p>
+
 ## Install
 
 Copy this folder into your Claude skills directory (or point Claude Code at it as a project skill). No dependencies, no server, no build step — it is prompt files and rules.
@@ -36,6 +43,17 @@ Answer ≤8 Discovery questions → confirm a proposed roster → receive a `pla
 
 ## How it works
 
+```mermaid
+flowchart LR
+  D["Discovery<br/><sub>≤8 questions</sub>"] --> B["Brief<br/><sub>source of truth,<br/>stable IDs</sub>"]
+  B --> R["Roster<br/><sub>right-sized team,<br/>with reasons</sub>"]
+  R --> S["Specialists<br/><sub>isolated contexts,<br/>cite-by-ID JSON</sub>"]
+  S --> C["Consensus<br/><sub>conflicts, challenges,<br/>simplifier</sub>"]
+  C --> G["Generation<br/><sub>2 eager docs,<br/>rest lazy</sub>"]
+  G -. "reality changes" .-> A["Amendment<br/><sub>staleness walk:<br/>re-plan only what moved</sub>"]
+  A -. "reruns only<br/>affected specialists" .-> C
+```
+
 1. **Discovery** — ≤8 conversational questions (six mandatory + adaptive probing) → confirmed **Brief** (single source of truth, stable section IDs).
 2. **Roster** — the Skill *proposes* a right-sized team with per-specialist reasoning; you confirm or override.
 3. **Specialists** — each runs one-per-turn in a fresh context, re-anchoring from files (not chat history), emitting a **structured JSON planning object** that cites the Brief by ID and never restates it.
@@ -60,7 +78,7 @@ Two runs live in [`examples/`](examples/):
 | Example | What it is |
 |---|---|
 | [`internal-tool-run/`](examples/internal-tool-run/) — **DeployGate** | An *authored* fixture: an internal prod-deploy approval tool. Hand-built to exercise the harder paths — a justified ceiling deviation (Postgres over SQLite), a PM-vs-Security separation-of-duties conflict, a compliance section correctly *omitted* for an internal tool. |
-| [`ats-talentos-run/`](examples/ats-talentos-run/) — **Recruiting-agency ATS** | A **real run** (the methodology executed end-to-end, not hand-written): an MVP applicant tracking system that reuses an existing service, [TalentOS](https://github.com/shreyas12/talentOS), to rank resumes on dump. Includes the full `planning/` folder, an **amendment** record, and two rendered docs. Start with its [`README`](examples/ats-talentos-run/README.md). |
+| [`ats-talentos-run/`](examples/ats-talentos-run/) — **Recruiting-agency ATS** | A **real run** (the methodology executed end-to-end, not hand-written): an MVP applicant tracking system that reuses an existing service, [TalentOS](https://github.com/shreyas12/talentOS), to rank resumes on dump. Includes the full `planning/` folder, an **amendment** record, two rendered docs, and a one-page [`report.html`](examples/ats-talentos-run/report.html) (the hero above). Start with its [`README`](examples/ats-talentos-run/README.md). |
 
 ## What the first real run showed
 
