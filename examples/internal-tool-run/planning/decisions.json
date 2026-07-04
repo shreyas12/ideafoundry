@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "resolved": [
+    {
+      "conflict": "cf1",
+      "decision": "f2 enforces separation of duties: requester ≠ approver, and only a user in the service's approver allowlist may decide. The allowlist is sourced from GitHub team membership.",
+      "rationale": "mechanical safety property required by g1 (an approval that the requester can grant themselves is not an approval); no business tradeoff for the user to make",
+      "by": "coordinator"
+    }
+  ],
+  "escalations": [
+    {
+      "id": "es1",
+      "question": "Where should the approver allowlist come from? Security's high challenge (brief.assumptions.a1) requires an explicit authorization source beyond SSO.",
+      "options": [
+        "Source it automatically from GitHub team membership (less admin, drifts with the org chart)",
+        "Maintain an explicit allowlist inside DeployGate (more control, needs upkeep — pr-style drift risk sr1)"
+      ],
+      "source": "security challenge on brief.assumptions.a1"
+    }
+  ],
+  "accepted_challenges": [],
+  "simplification_candidates": [],
+  "unresolved": []
+}

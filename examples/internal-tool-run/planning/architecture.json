@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "role": "engineer",
+  "summary": "Single TypeScript service (Express) behind the SSO gateway; Postgres for state + append-only audit; GitHub OAuth for authN; triggers the existing deploy pipeline via its authenticated API. No queue, no cache, no custom auth. Riskiest unknown: whether the deploy pipeline exposes a callable trigger (brief.assumptions.a2).",
+  "traces_to": ["brief.goals.g1", "brief.goals.g2", "brief.constraints.c1", "brief.constraints.c3", "brief.constraints.c4", "brief.assumptions.a2"],
+  "approach": "One stateless web service rendering server-side pages, sitting behind the existing SSO gateway. It writes deploy requests and decisions to Postgres and appends an immutable audit event per state change. On approval it calls the existing deploy pipeline's API — it never deploys anything itself (brief.non_goals.ng1).",
+  "stack": {
+    "runtime": "Node + TypeScript + Express",
+    "db": "Postgres",
+    "scheduler": "cron (expire stale pending requests nightly)",
+    "auth": "GitHub OAuth via the existing SSO gateway (library default, no custom auth)",
+    "hosting": "existing internal container platform, single instance"
+  },
+  "api_surface": [
+    {"method": "POST", "path": "/deploys", "purpose": "create a deploy request", "serves": "brief.goals.g1"},
+    {"method": "POST", "path": "/deploys/:id/approve", "purpose": "approve a pending request", "serves": "brief.goals.g1"},
+    {"method": "POST", "path": "/deploys/:id/reject", "purpose": "reject a pending request with a reason", "serves": "brief.goals.g1"},
+    {"method": "GET", "path": "/deploys", "purpose": "list requests filtered by status", "serves": "brief.goals.g2"},
+    {"method": "GET", "path": "/audit", "purpose": "browse the append-only audit trail", "serves": "brief.goals.g2"}
+  ],
+  "data_schema": [
+    {"entity": "deploy_request", "key_fields": ["id", "requester", "service", "target_env", "status", "created_at"], "notes": "status ∈ pending|approved|rejected|expired"},
+    {"entity": "approval", "key_fields": ["id", "deploy_id", "approver", "decision", "reason", "created_at"], "notes": "one row per decision; deploy_id → deploy_request.id"},
+    {"entity": "audit_event", "key_fields": ["id", "deploy_id", "actor", "action", "created_at"], "notes": "append-only; no update/delete path in the app"}
+  ],
+  "engineering_risks": [
+    {"id": "er1", "risk": "audit trail could be edited if written to a normal mutable table", "mitigation": "app exposes no update/delete on audit_event; revoke UPDATE/DELETE at the DB grant level", "serves": "brief.goals.g2"},
+    {"id": "er2", "risk": "the existing deploy pipeline may not expose a callable trigger (a2)", "mitigation": "spike the pipeline API in week 1 before building on it", "serves": "brief.assumptions.a2"}
+  ],
+  "gaps_to_clarify": [],
+  "challenges_to_brief": [],
+  "complexity_justification": [
+    {
+      "recommendation": "Postgres instead of SQLite",
+      "why_needed": "brief.constraints.c4 requires durable audit records with concurrent approvers; multiple leads decide in parallel and the audit table must survive a single-file loss",
+      "simpler_alternative_considered": "SQLite (the profile's preferred default)",
+      "why_rejected": "SQLite's single-writer model and single-file durability are a poor fit for concurrent approvals + an audit trail that incident review depends on — the deviation is grounded in c4, not future-proofing"
+    }
+  ]
+}

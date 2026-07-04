@@ -1,0 +1,27 @@
+# Internal Tool profile — small internal user base, some data sensitivity
+# token-budget: <=0.6K   schema_version: 1
+profile: internal-tool
+label: Internal Tool
+specialists: [pm, engineer, security]  # UX droppable (small known user base); Security in for data handling
+docs_available: 8
+doc_set: [00-executive-summary, 01-product-requirements, 02-technical-design, 04-database-schema, 07-security-review, 09-roadmap, 12-developer-tickets, 13-risk-register]
+budget:
+  initial_run_k: 34
+  hard_cap_k: 45
+  typical_read_k: 40
+
+# Mid-width ceiling: wider than weekend-hack (real auth + Postgres OK), narrower than regulated
+# (no queues/orchestration without a justification).
+complexity_ceiling:
+  reject_unless_justified:
+    - message queues
+    - container orchestration (Kubernetes, Nomad)
+    - multi-service architectures
+    - event sourcing / CQRS
+    - distributed databases
+  prefer:
+    - Postgres over a distributed DB
+    - a managed identity provider over custom auth
+    - a single service over microservices
+    - cron over job queues unless volume justifies
+    - managed hosting over self-managed infra

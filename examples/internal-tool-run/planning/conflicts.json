@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "conflicts": [
+    {
+      "id": "cf1",
+      "between": ["pm", "security"],
+      "topic": "PM's approve flow (f2) lets any team lead approve; Security requires requester ≠ approver and an explicit approver role, not just a valid SSO session",
+      "kind": "scope",
+      "full_pulled": true,
+      "detected_from": "summaries — PM summary says 'lead approves', Security summary flags SSO≠authz"
+    }
+  ]
+}

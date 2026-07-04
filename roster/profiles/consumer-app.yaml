@@ -1,0 +1,27 @@
+# Consumer App profile — public, >1 user type, UX-critical
+# token-budget: <=0.6K   schema_version: 1
+profile: consumer-app
+label: Consumer App
+specialists: [pm, engineer, ux]        # UX mandatory (consumer-facing); Security PROPOSED if auth/user-data signal
+propose_security_if: [auth, stored-user-data, accounts, payments, minor-audience]
+docs_available: 8
+doc_set: [00-executive-summary, 01-product-requirements, 02-technical-design, 04-database-schema, 06-ux-specification, 09-roadmap, 12-developer-tickets, 13-risk-register]
+budget:
+  initial_run_k: 34
+  hard_cap_k: 45
+  typical_read_k: 40
+
+complexity_ceiling:
+  reject_unless_justified:
+    - message queues
+    - container orchestration (Kubernetes, Nomad)
+    - multi-service architectures
+    - event sourcing / CQRS
+    - distributed databases
+    - premature native apps when a responsive web app satisfies the Brief
+  prefer:
+    - a monolith with a clean module boundary over microservices
+    - managed auth (Clerk/Auth0/Supabase) over custom
+    - Postgres over a distributed DB
+    - a CDN + managed hosting over self-managed infra
+    - progressive enhancement over a heavy SPA when content-first

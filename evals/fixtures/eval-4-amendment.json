@@ -1,0 +1,15 @@
+{
+  "id": "eval-4",
+  "kind": "amendment",
+  "profile": "consumer-app",
+  "starts_from": "eval-2 completed run",
+  "prompt": "/ideafoundry amend \"We just learned we need to support offline mode.\"",
+  "expected_amendment_file": "planning/amendments/001-offline-mode.json",
+  "expected_rerun": {"must_include": ["pm", "engineer"], "may_include": ["ux"], "must_exclude": ["security", "qa"]},
+  "expected_stale_outputs": {"count_min": 2, "count_max": 3, "candidates": ["architecture", "product", "ux"]},
+  "expected_stale_docs": {"count_min": 4, "count_max": 5, "candidates": ["02-technical-design", "04-database-schema", "01-product-requirements", "09-roadmap", "06-ux-specification"]},
+  "untouched_must_be_byte_identical": ["security", "qa"],
+  "budget": {"amendment_k_max": 15, "amendment_k_target": [8, 12]},
+  "fail_if": ["whole-team rerun", "eager regeneration of all docs", "over-marking (13-risk-register stale without a new risk)"],
+  "notes": "Requires a baseline snapshot of the eval-2 planning/ folder (pass --baseline) to verify byte-identical untouched files. Correct staleness set + affected-only rerun + cost under 15K is the pass."
+}

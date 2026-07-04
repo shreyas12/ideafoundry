@@ -1,0 +1,26 @@
+{
+  "id": "eval-1",
+  "kind": "initial-run",
+  "profile": "weekend-hack",
+  "prompt": "Slack app that summarizes standups and flags blockers. Solo dev, 2 weeks.",
+  "discovery": {"max_questions": 6, "expect_confidence": ["yellow", "green"]},
+  "expected_roster": {
+    "included": ["pm", "engineer"],
+    "declined": ["ux", "security"],
+    "declined_must_have_reason": true
+  },
+  "banned_ceiling_terms": [
+    "kubernetes", "k8s", "redis", "memcached", "microservice", "message queue",
+    "rabbitmq", "kafka", "custom auth", "distributed database", "event sourcing", "cqrs"
+  ],
+  "expected_defaults": {
+    "db": ["sqlite", "postgres"],
+    "auth_contains": ["slack oauth", "library", "default"],
+    "scheduler_contains": ["cron"]
+  },
+  "expected_challenges": {"high_count_min": 0, "any_fired_min": 0},
+  "budget": {"initial_run_k_max": 26, "hard_cap_k": 35},
+  "doc_set": ["00-executive-summary", "01-product-requirements", "02-technical-design", "09-roadmap", "12-developer-tickets"],
+  "absent_specialist_docs": ["06-ux-specification", "07-security-review", "08-test-strategy"],
+  "notes": "Decisive assertion: architecture.json must contain no banned_ceiling_term in stack/approach/summary UNLESS a matching complexity_justification exists. Unjustified count must be 0."
+}

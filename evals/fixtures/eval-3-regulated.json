@@ -1,0 +1,25 @@
+{
+  "id": "eval-3",
+  "kind": "initial-run",
+  "profile": "regulated",
+  "prompt": "Semantic caching layer for LLM apps handling customer prompts.",
+  "discovery": {"max_questions": 8, "expect_confidence": ["green", "yellow"], "expect_domain_signals": ["ai-native", "regulated"]},
+  "expected_roster": {
+    "included": ["pm", "engineer", "ux", "security", "qa"],
+    "security_mandatory": true,
+    "declined_must_have_reason": true
+  },
+  "ceiling_note": "regulated has a WIDE ceiling — enterprise patterns (vector store, per-tenant KMS) are allowed, but each STILL requires a complexity_justification citing a Brief/compliance constraint. banned_ceiling_terms is therefore empty; the check is instead 'every complexity_justification cites a Brief id'.",
+  "banned_ceiling_terms": [],
+  "justification_must_cite_brief": true,
+  "expected_challenges": {
+    "any_fired_min": 1,
+    "should_include_any": [
+      {"role": "security", "about": "customer prompts / PII / cross-tenant leakage", "impact": "high"},
+      {"role": "engineer", "about": "semantic cache adds an embedding+vector hop; latency claim", "impact": "high"}
+    ]
+  },
+  "budget": {"initial_run_k_max": 46, "per_doc_k_max": 3, "typical_read_k_max": 52, "hard_cap_k": 55},
+  "doc_set_size": 14,
+  "notes": "Security must produce >=1 concrete threat the Brief ignored. Consensus batches the security + engineer high challenges into ONE escalation. Simplifier flags any complexity_justification not grounded in a Brief constraint."
+}

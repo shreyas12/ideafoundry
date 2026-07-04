@@ -1,0 +1,41 @@
+# Regulated / Production profile — real users, compliance in scope, production deployment
+# token-budget: <=0.6K   schema_version: 1
+profile: regulated
+label: Regulated / Production
+specialists: [pm, engineer, ux, security, qa]   # all five; Security MANDATORY, non-removable
+security_mandatory: true
+docs_available: 14
+doc_set:
+  - 00-executive-summary
+  - 01-product-requirements
+  - 02-technical-design
+  - 03-api-design
+  - 04-database-schema
+  - 05-architecture-decisions
+  - 06-ux-specification
+  - 07-security-review
+  - 08-test-strategy
+  - 09-roadmap
+  - 10-deployment-ops
+  - 11-observability
+  - 12-developer-tickets
+  - 13-risk-register
+budget:
+  initial_run_k: 46
+  hard_cap_k: 55
+  typical_read_k: 52
+
+# WIDE ceiling: enterprise patterns are appropriate for regulated production — BUT enforcement
+# never disappears. Even here, each listed element must carry a complexity_justification that
+# cites a Brief constraint (e.g. tenant isolation required by compliance). "Ceiling scales with
+# profile; enforcement is constant."
+complexity_ceiling:
+  reject_unless_justified:
+    - multi-region active-active before a stated availability requirement
+    - custom cryptography (always prefer vetted libraries/KMS)
+    - bespoke orchestration when a managed platform satisfies the Brief
+  prefer:
+    - managed KMS over hand-rolled key management
+    - a vetted identity provider over custom auth
+    - managed queues/vector stores over self-operated when compliance allows
+    - documented tenant isolation over implicit shared state

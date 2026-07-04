@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "vision": "An internal tool where engineers request production deployments and team leads approve or reject them, leaving a tamper-evident audit trail of who shipped what and who signed off.",
+  "problem": "Production deploys happen ad hoc over Slack DMs. There is no consistent approval step and no record of who authorized a given release, which bites during incident review.",
+  "target_users": [
+    {"id": "u1", "label": "engineer", "description": "requests a deploy of a service to an environment", "sophistication": "expert"},
+    {"id": "u2", "label": "team lead", "description": "approves or rejects deploy requests for their services", "sophistication": "expert"}
+  ],
+  "goals": [
+    {"id": "g1", "text": "every production deploy passes through an explicit approval step"},
+    {"id": "g2", "text": "a durable audit trail records requester, approver, service, and decision"},
+    {"id": "g3", "text": "approvals are fast enough not to slow the team down"}
+  ],
+  "non_goals": [
+    {"id": "ng1", "text": "building the CI/CD pipeline itself — this gates an existing pipeline, it does not replace it"},
+    {"id": "ng2", "text": "automated rollback"},
+    {"id": "ng3", "text": "multi-org / customer-facing use — internal only"}
+  ],
+  "constraints": [
+    {"id": "c1", "text": "internal only, deployed behind the company SSO gateway", "kind": "platform"},
+    {"id": "c2", "text": "small team, target 1-3 months to first use", "kind": "timeline"},
+    {"id": "c3", "text": "must authenticate via the existing GitHub SSO", "kind": "integration"},
+    {"id": "c4", "text": "audit records must be durable and support concurrent approvers", "kind": "other"}
+  ],
+  "timeline": {"id": "t1", "horizon": "1-3-months", "hard_deadline": null},
+  "team": {"id": "tm1", "size": "small", "skills": ["TypeScript", "Node", "Postgres"]},
+  "budget": {"id": "b1", "text": "unspecified — runs on existing internal infra"},
+  "success_metrics": [
+    {"id": "s1", "metric": "share of production deploys that went through an approval", "target": "100%"},
+    {"id": "s2", "metric": "median time from request to decision", "target": "under 30 minutes"}
+  ],
+  "assumptions": [
+    {"id": "a1", "text": "all engineers and leads already have GitHub SSO accounts", "blocks": false},
+    {"id": "a2", "text": "the existing deploy pipeline can be triggered by an authenticated API call", "blocks": false}
+  ],
+  "risks": [
+    {"id": "r1", "text": "if approvals are slow, engineers route around the tool and the audit trail has gaps"}
+  ],
+  "gaps_to_clarify": [],
+  "confidence": "green",
+  "domain_signals": ["internal", "auth", "audit"]
+}

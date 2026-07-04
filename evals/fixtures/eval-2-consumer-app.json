@@ -1,0 +1,23 @@
+{
+  "id": "eval-2",
+  "kind": "initial-run",
+  "profile": "consumer-app",
+  "prompt": "Something like Duolingo but for financial literacy.",
+  "discovery": {"max_questions": 8, "expect_confidence": ["yellow", "green"], "expect_gaps_nonempty": true},
+  "expected_roster": {
+    "included": ["pm", "engineer", "ux"],
+    "conditional": [{"role": "security", "when": "brief signals accounts or stored user data", "expect": "proposed"}],
+    "declined_must_have_reason": true
+  },
+  "banned_ceiling_terms": [
+    "kubernetes", "k8s", "microservice", "kafka", "event sourcing", "cqrs", "custom auth"
+  ],
+  "expected_challenges": {
+    "high_count_min": 1,
+    "must_include": {"role": "ux", "brief_section_kind": "success_metrics", "impact": "high"}
+  },
+  "budget": {"initial_run_k_max": 34, "hard_cap_k": 45},
+  "doc_set": ["00-executive-summary", "01-product-requirements", "02-technical-design", "03-api-design", "04-database-schema", "06-ux-specification", "09-roadmap", "12-developer-tickets"],
+  "absent_specialist_docs_when_no_security": ["07-security-review"],
+  "notes": "UX must fire a high challenge on the success metric ('lessons completed' rewards volume not retention); it must surface in decisions.escalations. Security proposed (not silently added) when user-data signal present, with recorded reasoning."
+}

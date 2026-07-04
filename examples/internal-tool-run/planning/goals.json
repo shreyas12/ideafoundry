@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "business_goals": [
+    {"id": "g1", "text": "every production deploy passes through an explicit approval step", "traces_from": "brief.goals.g1", "success_metric": "brief.success_metrics.s1"},
+    {"id": "g2", "text": "a durable audit trail records requester, approver, service, and decision", "traces_from": "brief.goals.g2"},
+    {"id": "g3", "text": "approvals are fast enough not to slow the team down", "traces_from": "brief.goals.g3", "success_metric": "brief.success_metrics.s2"}
+  ],
+  "traceability_roots": ["g1", "g2", "g3"]
+}

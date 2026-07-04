@@ -1,0 +1,32 @@
+# Weekend Hack profile — solo dev, days-to-2-weeks, ship something real
+# token-budget: <=0.6K   schema_version: 1
+profile: weekend-hack
+label: Weekend Hack
+specialists: [pm, engineer]           # QA/UX/Security dropped by default; roster rubric may still propose
+docs_available: 5                     # 00, 01, 02, 09, 12 (see doc_set)
+doc_set: [00-executive-summary, 01-product-requirements, 02-technical-design, 09-roadmap, 12-developer-tickets]
+budget:
+  initial_run_k: 26
+  hard_cap_k: 35
+  typical_read_k: 30
+
+# Complexity ceiling — the mechanism that stops "Kubernetes for a habit tracker".
+# Any recommendation matching reject_unless_justified MUST carry a complexity_justification
+# grounded in a Brief constraint, or it is a schema violation (Consensus simplifier flags it).
+complexity_ceiling:
+  reject_unless_justified:
+    - message queues
+    - container orchestration (Kubernetes, Nomad)
+    - multi-service architectures
+    - dedicated cache layers (Redis, Memcached)
+    - custom authentication systems (use library defaults)
+    - distributed databases
+    - event sourcing / CQRS
+    - microservices
+  prefer:
+    - SQLite over Postgres
+    - server-rendered HTML over SPA
+    - cron over job queues
+    - library defaults over custom
+    - single-instance deploy over autoscaling
+    - managed hosting over self-managed infra

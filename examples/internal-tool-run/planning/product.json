@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "role": "pm",
+  "summary": "Core loop = request deploy → lead approves/rejects → audit record written. MVP = f1 request, f2 approve/reject, f3 audit view. Notifications (f4) deferred to Next so the MVP fits the 1-3 month window. Top product risk: slow approvals push engineers to route around the tool (r1).",
+  "traces_to": ["brief.goals.g1", "brief.goals.g2", "brief.goals.g3", "brief.target_users.u1", "brief.target_users.u2"],
+  "features": [
+    {"id": "f1", "name": "Request a deploy", "serves": "brief.goals.g1", "priority": "mvp", "user_story": "As an engineer (u1), I request a deploy of a service to production so that it is queued for approval instead of shipping silently."},
+    {"id": "f2", "name": "Approve or reject", "serves": "brief.goals.g1", "priority": "mvp", "user_story": "As a team lead (u2), I approve or reject a pending request with a reason so that only sanctioned deploys proceed."},
+    {"id": "f3", "name": "Audit trail view", "serves": "brief.goals.g2", "priority": "mvp", "user_story": "As a team lead (u2), I browse the history of requests and decisions so that incident review can see who authorized a release."},
+    {"id": "f4", "name": "Notifications", "serves": "brief.goals.g3", "priority": "next", "user_story": "As a team lead (u2), I am notified of a pending request so that I decide quickly."},
+    {"id": "f5", "name": "Per-service approver policies", "serves": "brief.goals.g1", "priority": "later", "user_story": "As an admin, I configure which leads can approve which services."}
+  ],
+  "mvp": {
+    "included": ["f1", "f2", "f3"],
+    "deferred": ["f4", "f5"],
+    "cut_rationale": "The core loop (request → decide → record) delivers g1 and g2 on its own and moves s1 to 100%. Notifications (f4) improve s2 but are not required to ship the loop, so they wait for Next (brief.timeline.t1). Per-service policies (f5) are configurability the MVP does not need (mvp-rules #4)."
+  },
+  "roadmap": [
+    {"phase": "MVP", "features": ["f1", "f2", "f3"], "outcome": "every prod deploy now has an approval and an audit record"},
+    {"phase": "Next", "features": ["f4"], "outcome": "faster decisions — pushes median approval under 30 min (s2)"},
+    {"phase": "Later", "features": ["f5"]}
+  ],
+  "product_risks": [
+    {"id": "pr1", "risk": "slow approvals cause engineers to bypass the tool, leaving audit gaps", "mitigation": "keep the request flow to one screen; prioritize f4 notifications in Next", "serves": "brief.goals.g1"},
+    {"id": "pr2", "risk": "if a lead is unavailable, deploys stall", "mitigation": "allow any lead of the service to approve (not a single named owner)", "serves": "brief.goals.g3"}
+  ],
+  "gaps_to_clarify": [],
+  "challenges_to_brief": [],
+  "complexity_justification": []
+}

@@ -1,0 +1,5 @@
+{
+  "schema_version": 1,
+  "note": "medium/low challenges — logged, not surfaced to the user (materiality gate). Empty here: the only challenge this run was Security's high challenge on a1, which surfaced via decisions.escalations es1.",
+  "challenges": []
+}

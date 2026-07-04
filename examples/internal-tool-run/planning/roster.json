@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "profile": "internal-tool",
+  "included": [
+    {"role": "pm", "reason": "always included — owns the feature cut and MVP boundary"},
+    {"role": "engineer", "reason": "always included — owns feasibility and the SSO/pipeline integration"},
+    {"role": "security", "reason": "internal-tool default; this tool authorizes production changes and keeps an audit trail, so authz and audit-integrity are core, not optional"}
+  ],
+  "excluded": [
+    {"role": "ux", "reason": "declined — two internal expert users, a request form + an approval list; no bespoke UX, reuse the internal component library. Revisit only if usage data shows the approval flow confuses leads."},
+    {"role": "qa", "reason": "declined — small internal tool on a 1-3 month timeline; acceptance-level checks on the approval loop are covered by the Engineer's design and the tickets. Revisit if the tool becomes load-bearing for many teams."}
+  ],
+  "overrides": [],
+  "active_complexity_ceiling": "internal-tool"
+}

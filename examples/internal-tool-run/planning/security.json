@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "role": "security",
+  "summary": "Crown-jewel property is integrity: only the right people approve, and the audit trail cannot be forged. Biggest gap in the Brief: it conflates SSO authentication with authorization (a1) — SSO proves identity, it does not decide who may approve, and nothing stops an engineer approving their own deploy. Mandatory: an approver allowlist + separation of duties (requester ≠ approver) + DB-enforced append-only audit. Not regulated — no external compliance regime.",
+  "traces_to": ["brief.assumptions.a1", "brief.constraints.c3", "brief.goals.g1", "brief.goals.g2"],
+  "threats": [
+    {"id": "th1", "threat": "an engineer approves their own deploy request, defeating the control", "severity": "high", "mitigation": "enforce requester ≠ approver server-side, plus an explicit approver-role check"},
+    {"id": "th2", "threat": "audit records are altered or deleted to hide who authorized a release", "severity": "high", "mitigation": "append-only audit_event with UPDATE/DELETE revoked at the DB grant; no app path to mutate"},
+    {"id": "th3", "threat": "any authenticated SSO user can call the approve endpoint", "severity": "medium", "mitigation": "authorization check on the lead role, not merely a valid session"}
+  ],
+  "authn": "GitHub OAuth via the existing SSO gateway (brief.constraints.c3). Identity only — never treated as authorization.",
+  "authz": "Role-based: an authenticated user may request; only a user in the approver allowlist for the service may approve/reject; a request's own requester may never approve it (separation of duties).",
+  "secrets": "The deploy-pipeline API token lives in the platform secret store / env, never in the DB or the repo; rotated on the platform's schedule.",
+  "data_protection": {
+    "at_rest": "Postgres on the internal platform's encrypted volume",
+    "in_transit": "TLS terminated at the SSO gateway",
+    "tenant_isolation": "single-tenant internal tool — not applicable"
+  },
+  "security_risks": [
+    {"id": "sr1", "risk": "approver allowlist drifts out of date as people change teams", "mitigation": "source the allowlist from the GitHub team membership rather than a hand-maintained list"}
+  ],
+  "gaps_to_clarify": [],
+  "challenges_to_brief": [
+    {"brief_section_id": "brief.assumptions.a1", "concern": "the Brief assumes GitHub SSO is sufficient for access control, but SSO authenticates identity and does not authorize approval — as written, any engineer could approve any deploy, including their own, which defeats g1", "recommendation": "add an explicit approver allowlist (sourced from GitHub team membership) and enforce requester ≠ approver server-side", "impact": "high"}
+  ],
+  "complexity_justification": []
+}
