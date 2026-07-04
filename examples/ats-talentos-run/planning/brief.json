@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "vision": "A lightweight web ATS for small recruiting agencies that replaces the spreadsheet-and-email pipeline with one shared board, and auto-ranks candidates the moment resumes are dumped into a job by delegating to TalentOS.",
+  "problem": "Small recruiting agencies (2-10 recruiters) run their whole hiring pipeline in spreadsheets and email: resumes get lost in inboxes, two recruiters unknowingly work the same candidate, and no one can show a client where their candidates stand without digging.",
+  "target_users": [
+    {"id": "u1", "label": "Agency recruiter", "description": "Runs multiple client jobs at once; lives in the pipeline daily.", "sophistication": "intermediate"},
+    {"id": "u2", "label": "Agency client (hiring company)", "description": "Wants a read-only view of where their candidates stand.", "sophistication": "novice"}
+  ],
+  "goals": [
+    {"id": "g1", "text": "Replace spreadsheet/email chaos with one shared pipeline every recruiter can see."},
+    {"id": "g2", "text": "Auto-rank candidates on resume dump by delegating to TalentOS, so recruiters get an evidence-backed shortlist without manual triage."},
+    {"id": "g3", "text": "Eliminate double-contact — no two recruiters unknowingly work the same candidate."},
+    {"id": "g4", "text": "Give clients a live read-only view of their candidates' status."},
+    {"id": "g5", "text": "Provide a fairness/defensibility surface for the automated rank. [added by amendment 001, accepts security challenge on g2]"}
+  ],
+  "non_goals": [
+    {"id": "ng1", "text": "Job-board auto-posting to LinkedIn/Indeed."},
+    {"id": "ng2", "text": "Interview scheduling."},
+    {"id": "ng3", "text": "Analytics dashboards."},
+    {"id": "ng4", "text": "Building our own resume-ranking engine — TalentOS already does this (see c4)."},
+    {"id": "ng5", "text": "Client read-only view (g4) is NOT in the MVP — it is v1.1, first fast-follow. [added by amendment 001, es1=B: recruiter-only MVP fits c2]"}
+  ],
+  "constraints": [
+    {"id": "c1", "text": "Web app.", "kind": "platform"},
+    {"id": "c2", "text": "Something real in 'a few weeks'.", "kind": "timeline"},
+    {"id": "c3", "text": "Solo builder plus a friend who does frontend.", "kind": "team"},
+    {"id": "c4", "text": "TalentOS available as a local-first ranking service: project-scoped REST API (create project, PUT job [LLM-parses], POST resumes, POST /process, POST /rank -> RankingResult with evidence, strengths/gaps explanations, interview-kit gen). Coupling tightness left to Engineer.", "kind": "integration"},
+    {"id": "c5", "text": "TalentOS runs locally against Ollama + FAISS (local-first, ~$0 infra).", "kind": "integration"}
+  ],
+  "timeline": {"id": "t1", "horizon": "2-weeks", "hard_deadline": null},
+  "team": {"id": "tm1", "size": "small", "skills": ["python/fastapi backend", "react frontend"]},
+  "budget": {"id": "b1", "text": "Unspecified; local-first implies ~$0 infra for MVP."},
+  "success_metrics": [
+    {"id": "s1", "metric": "Time-to-shortlist: recruiter goes from resume dump to a ranked, evidence-backed shortlist", "target": "under ~5 minutes (PRIMARY)"},
+    {"id": "s2", "metric": "Pipeline adoption: at least one agency runs live jobs end-to-end in the tool instead of spreadsheets", "target": "1 agency, >=3 live jobs (secondary)"},
+    {"id": "s3", "metric": "Zero double-contact incidents once the collision guard is live", "target": "directional (secondary/guardrail)"}
+  ],
+  "assumptions": [
+    {"id": "a1", "text": "TalentOS's REST API is stable enough to build against as-is, without forking it."},
+    {"id": "a2", "text": "Recruiters will trust TalentOS's ranking enough to act on it — conditional on seeing the evidence."},
+    {"id": "a3", "text": "Agency clients actually want a self-serve read-only portal (vs. an emailed status)."}
+  ],
+  "risks": [
+    {"id": "r1", "text": "MVP value (g2) is coupled to TalentOS; if its API shifts or it's unavailable, ranking breaks."},
+    {"id": "r2", "text": "Client view + TalentOS integration is a lot to land in 'a few weeks'."}
+  ],
+  "gaps_to_clarify": [
+    {"id": "gap1", "text": "Auth model for client access — magic link, scoped tokens, separate portal? Needed for the client-view build.", "blocks": false},
+    {"id": "gap2", "text": "How resumes enter the system — manual upload only, or email ingest?", "blocks": false}
+  ],
+  "confidence": "green",
+  "domain_signals": ["hiring", "pii", "internal-tool", "integration", "external-sharing"]
+}

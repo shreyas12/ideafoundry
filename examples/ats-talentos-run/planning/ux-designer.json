@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "role": "ux",
+  "_amended": "rerun by amendment 001 (es2=A adds a fairness surface, g5); client portal flow dropped from MVP (ng5, es1=B)",
+  "summary": "One surface for MVP (recruiter app; client portal is v1.1 per ng5). Home = a kanban board (stages as columns). Hero flow is dump -> ranked shortlist under 5 min (s1), landing the recruiter directly on a ranked list. Candidate drawer surfaces TalentOS evidence + strengths/gaps + explanation inline (trust, a2) AND now the fairness audit (g5/f8) as a tab in that same drawer, with the human-override control beside it. Double-contact guard (f6) is an inline non-blocking warning at the point of contact.",
+  "traces_to": ["brief.target_users.u1", "brief.goals.g2", "brief.goals.g3", "brief.goals.g5", "brief.non_goals.ng5", "brief.success_metrics.s1", "brief.assumptions.a2"],
+  "key_flows": {
+    "hero": "Dump: recruiter drops resumes -> optimistic 'ranking...' state -> ranked shortlist with score + one-line why per candidate. Must feel <5 min end to end (s1).",
+    "trust": "Candidate drawer: score, TalentOS evidence rows, strengths/gaps, explanation narrative — reused verbatim.",
+    "fairness": "Fairness tab in the candidate drawer (f8/g5): shows TalentOS's fairness audit for the ranking + a visible human-override control. Keeps defensibility one click from the decision, not buried.",
+    "collision": "f6 warning is a non-blocking inline banner on the candidate card ('Priya is being worked by Sam'), with a claim/override."
+  },
+  "gaps_to_clarify": [],
+  "challenges_to_brief": [
+    {"brief_section_id": "brief.assumptions.a2", "concern": "Recruiters won't act on a black-box rank; the whole g2 value dies if the shortlist is just a number.", "recommendation": "Make TalentOS's evidence/explanation + the new fairness surface first-class in the candidate drawer, not hidden detail.", "impact": "medium"}
+  ],
+  "complexity_justification": []
+}

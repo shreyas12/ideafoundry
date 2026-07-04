@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "role": "security",
+  "summary": "Two things dominate. (1) The client-facing view (f7/g4) is an EXTERNAL authz boundary over candidate PII — clients must see ONLY their own jobs, and minimized candidate data (status, not full resumes of rejected people). This boundary is the single biggest security cost in the Brief and it is NOT budgeted in c2 — reinforces the timeline escalation from a security angle. (2) Hiring is a regulated-flavored domain: ranking candidates with an automated system (g2) carries bias/legal exposure. TalentOS ships a fairness audit; I recommend it is IN the MVP, not deferred — defensibility of the rank is not optional for a hiring tool. Candidate PII at rest (Postgres + the TalentOS local store) needs access control; local-first (c5) helps but isn't a substitute.",
+  "traces_to": ["brief.goals.g2", "brief.goals.g4", "brief.target_users.u2", "brief.constraints.c2", "brief.constraints.c4", "brief.constraints.c5", "brief.domain_signals", "brief.assumptions.a1"],
+  "concerns": {
+    "authz": "Recruiter realm = full access within the agency. Client realm = read-only, scoped to that client's job(s) only. Prefer a managed identity provider / magic-link over hand-rolled auth (ceiling preference).",
+    "pii": "Resumes are PII (name, contact, history). Encrypt at rest; scope DB access; the client view must project a minimized subset. Data retention/deletion for rejected candidates should have a stated default even in MVP.",
+    "fairness": "Automated hiring rank (g2) => document and expose TalentOS's fairness audit; keep a human-in-the-loop override (TalentOS supports overrides). This is legal defensibility, not polish.",
+    "audit": "Contact-locks (f6) and rank overrides should be logged for dispute resolution."
+  },
+  "gaps_to_clarify": [
+    {"id": "gap1", "text": "Client auth model (gap1) — magic link vs scoped token vs SSO — is a security decision, not just UX; needed before f7 is built.", "blocks": false}
+  ],
+  "challenges_to_brief": [
+    {"brief_section_id": "brief.constraints.c2", "concern": "Shipping an external client portal over candidate PII in 'a few weeks' means the auth/authz + data-minimization work is likely to be rushed — the highest-risk thing to rush.", "recommendation": "Defer f7 to v1.1 so the external boundary gets proper time; ship recruiter-only MVP first. Converges with PM + Engineer.", "impact": "high"},
+    {"brief_section_id": "brief.goals.g2", "concern": "Automated candidate ranking without a visible fairness/defensibility story is a legal and reputational risk for a hiring product.", "recommendation": "Promote TalentOS's fairness audit into the MVP (it already exists — low build cost, high risk reduction). Route to user as a scope decision.", "impact": "high"}
+  ],
+  "complexity_justification": []
+}

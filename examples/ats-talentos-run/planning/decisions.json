@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "_amended": "updated by amendment 001 — es1 + es2 resolved by user",
+  "resolved": [
+    {"conflict": "cf1", "decision": "es1=B — recruiter-only MVP (f1-f6, f8); client view (f7/g4) is v1.1 (ng5).", "rationale": "User accepted the convergent pm+engineer+security timeline challenge. f1-f6 fits c2; f7's external auth boundary gets proper time in v1.1.", "by": "user"},
+    {"conflict": "cf2", "decision": "es2=A — TalentOS fairness audit ships IN the MVP (new feature f8, goal g5).", "rationale": "User accepted the security challenge on g2. Low build cost (TalentOS provides the audit); automated hiring rank gets a defensibility story from day one.", "by": "user"},
+    {"conflict": "cf1", "decision": "Reuse TalentOS via a thin adapter accepted as the ranking architecture.", "rationale": "Engineer's build-vs-reuse justification cites ng4/c4 and passed the simplifier. Unchanged by the amendment.", "by": "coordinator"}
+  ],
+  "escalations": [],
+  "accepted_challenges": [
+    {"brief_section_id": "brief.constraints.c2", "resolution": "es1=B", "brief_effect": "appended ng5 (client view = v1.1)"},
+    {"brief_section_id": "brief.goals.g2", "resolution": "es2=A", "brief_effect": "appended g5 (fairness surface); pm added f8 to MVP"}
+  ],
+  "simplification_candidates": [],
+  "simplifier_note": "Unchanged from initial run. Engineer's two-service + Postgres justifications both cite real Brief constraints (ng4/c4, g1/g4). PASS, no candidates.",
+  "unresolved": []
+}

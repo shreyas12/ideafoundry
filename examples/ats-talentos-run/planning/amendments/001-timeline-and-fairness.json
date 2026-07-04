@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "id": "001",
+  "note": "Resolved es1 + es2. es1=B: recruiter-only MVP, client view (g4/f7) -> v1.1. es2=A: TalentOS fairness audit is IN the MVP.",
+  "timestamp": "2026-07-04",
+  "brief_changes": {
+    "appended": ["brief.goals.g5", "brief.non_goals.ng5"],
+    "superseded": [],
+    "rationale": "Accepted challenges. g2 fairness challenge (security) -> new goal g5. c2 timeline challenge (pm+eng+sec) -> ng5 formalizes client view as v1.1 (not a Brief error, a scope decision)."
+  },
+  "invalidates": ["product-manager.json", "ux-designer.json"],
+  "rerun": ["pm", "ux"],
+  "not_rerun": {
+    "engineer": "traces to g2 but the fairness surface is one more TalentOS endpoint the existing adapter already covers — no architectural move. Stays byte-identical.",
+    "security": "this is security's own recommendation, now adopted; its analysis is unchanged. Stays byte-identical."
+  },
+  "stale_docs": ["00-executive-summary", "12-developer-tickets"],
+  "consensus_rerun": false,
+  "consensus_rerun_reason": "PM adds a low-cost feature (fairness, already in TalentOS) under an already-narrowed recruiter-only scope; no new conflict with the timeline. Skipped full Consensus per amendment.md step 6; decisions.json updated to record accepted challenges."
+}

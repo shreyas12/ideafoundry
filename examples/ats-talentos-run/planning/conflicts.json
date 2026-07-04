@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "conflicts": [
+    {
+      "id": "cf1",
+      "between": ["pm", "engineer", "security"],
+      "topic": "Client read-only view (f7/g4) + TalentOS integration vs the 'few weeks' timeline (c2). All three specialists independently flagged c2 in their summaries.",
+      "kind": "scope",
+      "full_pulled": true,
+      "confirmation": "Confirmed from full outputs: PM defers f7 pending decision; Engineer states he can hit c2 for f1-f6 but not f1-f7; Security says the external PII boundary is the worst thing to rush. Convergent, not contradictory — strong signal the Brief's scope/timeline is mismatched."
+    },
+    {
+      "id": "cf2",
+      "between": ["security", "pm"],
+      "topic": "Security wants TalentOS's fairness audit promoted INTO the MVP (g2 defensibility); PM's MVP cut didn't include it. Adds scope under an already-tight c2.",
+      "kind": "scope",
+      "full_pulled": true,
+      "confirmation": "Real but low-cost: TalentOS already provides the fairness audit, so it's a wiring decision, not a build. Routed to user because it changes an MVP feature set."
+    }
+  ]
+}

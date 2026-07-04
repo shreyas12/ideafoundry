@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "profile": "internal-tool",
+  "included": [
+    {"role": "pm", "reason": "Always — owns the MVP cut, scope discipline, and traceability to goals. Central given the explicit scope-creep signal (user wanted 'all of the above')."},
+    {"role": "engineer", "reason": "Always — owns feasibility and stack; here also owns the build-vs-reuse decision on TalentOS (c4), left open by the user on purpose."},
+    {"role": "security", "reason": "Mandatory. Hiring domain + candidate PII in resumes + an EXTERNAL client-facing view (g4) = a real auth/authz boundary and data-handling surface. Never droppable on this Brief."},
+    {"role": "ux", "reason": "Promoted in. Two user types (recruiter app u1 + client portal u2) and a real daily recruiter workflow; the hero flow (dump -> shortlist under 5 min, s1) is a UX problem as much as a technical one."}
+  ],
+  "excluded": [
+    {"role": "qa", "reason": "Droppable for MVP: solo+friend team (c3), 'few weeks' timeline (c2). PM acceptance criteria + Engineer-authored tests carry release confidence at this scale. REVISIT before onboarding a second paying agency or before the client portal handles real client data."}
+  ],
+  "overrides": []
+}

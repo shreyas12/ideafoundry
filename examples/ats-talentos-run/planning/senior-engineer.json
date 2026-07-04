@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "role": "engineer",
+  "summary": "BUILD-VS-REUSE VERDICT: reuse TalentOS as the ranking service, do NOT rebuild (rebuilding is ng4 and blows c2). Couple LOOSELY via its REST API behind a thin adapter: an ATS 'job' maps 1:1 to a TalentOS 'project'; on resume dump the ATS calls create-project -> PUT job -> POST resumes -> POST /process -> POST /rank, then caches the returned RankingResult in the ATS DB. Stack: single web service + Postgres (pipeline/stages/notes/users own the source of truth; TalentOS owns ranking only). TalentOS runs as a local sidecar (c5). The integration + client view (f7) will NOT both fit c2 — agree with PM's timeline escalation.",
+  "traces_to": ["brief.constraints.c1", "brief.constraints.c2", "brief.constraints.c4", "brief.constraints.c5", "brief.goals.g2", "brief.non_goals.ng4", "brief.assumptions.a1", "brief.risks.r1"],
+  "architecture": {
+    "shape": "Single ATS web service (FastAPI) + Postgres + React frontend (tm1 skills). TalentOS as a separate local service reached over HTTP through one adapter module.",
+    "integration_contract": "ats_job.talentos_project_id links the two. Dump flow is async: enqueue-free, a single background task per dump calls /process then /rank (cron/inline, not a queue — volume doesn't justify one). RankingResult (score, evidence, strengths/gaps, explanation) is cached on the ATS candidate row so the board renders without re-hitting TalentOS.",
+    "data_ownership": "ATS DB = jobs, candidates, stages, notes, users, contact-locks (f6). TalentOS = embeddings, ranking, evidence. Resume files stored once; pushed to TalentOS, referenced from ATS.",
+    "adapter_rationale": "The thin adapter isolates r1 (a1 is unversioned): if TalentOS's API shifts, one module changes. A contract test pins the response shape."
+  },
+  "gaps_to_clarify": [
+    {"id": "gap1", "text": "Client auth model (gap1) determines whether f7 is a shared service with a second authz realm or a separate read-only app — affects the whole f7 estimate.", "blocks": false}
+  ],
+  "challenges_to_brief": [
+    {"brief_section_id": "brief.constraints.c2", "concern": "TalentOS integration (adapter + dump orchestration + result caching) is itself ~1 week; a shared board + double-contact guard is another; f7 with its own auth surface is a third. 'A few weeks' fits ~two of those three.", "recommendation": "Same escalation as PM: recruiter-only MVP first, or extend timeline. I can hit c2 for f1-f6; not f1-f7.", "impact": "high"},
+    {"brief_section_id": "brief.risks.r1", "concern": "r1 is real but mitigable and shouldn't block: the adapter + a contract test contains it. Flagging so it isn't treated as a reason to fork/rebuild TalentOS (which would be worse).", "recommendation": "Accept r1 with the adapter mitigation; keep reuse.", "impact": "low"}
+  ],
+  "complexity_justification": [
+    {"recommendation": "Run TalentOS as a separate service the ATS calls (a two-service topology).", "why_needed": "cites brief.constraints.c4 — TalentOS already exists and provides g2 end-to-end; and brief.non_goals.ng4 — building ranking is explicitly out of scope.", "simpler_alternative_considered": "Embed ranking logic directly inside the ATS as one process.", "why_rejected": "Embedding would duplicate a working system (violates ng4), require porting TalentOS's FAISS/LLM pipeline, and break c2. Reusing the existing service IS the simpler path to satisfy the Brief, despite being two processes."},
+    {"recommendation": "Postgres, not SQLite.", "why_needed": "cites brief.goals.g1 (multiple recruiters on one shared board = concurrent writes) and brief.goals.g4 (external client reads).", "simpler_alternative_considered": "SQLite (the weekend-hack default).", "why_rejected": "Concurrent multi-recruiter writes on a shared pipeline + an external reader make SQLite's single-writer model a real limitation, not a hypothetical one. Within the internal-tool ceiling, which prefers Postgres."}
+  ]
+}

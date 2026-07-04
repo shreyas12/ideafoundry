@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "role": "pm",
+  "_amended": "rerun by amendment 001 (es1=B, es2=A)",
+  "summary": "MVP (recruiter-only, per ng5) = shared pipeline (jobs, stages, candidates, shared notes) + TalentOS auto-rank on dump + a fairness/defensibility surface (f8, serves g5) + double-contact guard. Primary metric is time-to-shortlist (s1); the ranking (f3) IS the wedge. Client read-only view (f7, serves g4) is now explicitly v1.1 (ng5), out of the MVP backlog. Fairness surface added to MVP per accepted security challenge; it's low-cost (TalentOS provides the audit). Auto-posting/scheduling/analytics stay non-goals.",
+  "traces_to": ["brief.goals.g1", "brief.goals.g2", "brief.goals.g3", "brief.goals.g5", "brief.non_goals.ng5", "brief.constraints.c2", "brief.constraints.c4", "brief.success_metrics.s1", "brief.non_goals.ng1", "brief.non_goals.ng2", "brief.non_goals.ng3"],
+  "features": {
+    "f1": {"name": "Create job", "user_story": "As a recruiter I create a job with a title + description so I have a pipeline to work.", "serves": "g1"},
+    "f2": {"name": "Dump resumes into a job", "user_story": "As a recruiter I upload/drag a batch of resumes into a job so they enter the pipeline in one action.", "serves": "g1"},
+    "f3": {"name": "Auto-rank on dump (TalentOS)", "user_story": "As a recruiter, when I dump resumes the system ranks them via TalentOS and shows me an evidence-backed shortlist without manual triage.", "serves": "g2"},
+    "f4": {"name": "Pipeline stages (board)", "user_story": "As a recruiter I move candidates across stages (applied -> screening -> interview -> offer) on a shared board.", "serves": "g1"},
+    "f5": {"name": "Shared candidate notes", "user_story": "As a recruiter I leave notes on a candidate the whole team can see.", "serves": "g1"},
+    "f6": {"name": "Double-contact guard", "user_story": "As a recruiter I get warned when a candidate I'm about to contact is already being worked by a teammate.", "serves": "g3"},
+    "f7": {"name": "Client read-only view", "user_story": "As an agency client I open a link and see where my candidates stand, read-only.", "serves": "g4"},
+    "f8": {"name": "Fairness / defensibility surface", "user_story": "As a recruiter I can see TalentOS's fairness audit for a ranking so I can trust and defend it, with a human override.", "serves": "g5"}
+  },
+  "mvp": {
+    "included": ["f1", "f2", "f3", "f4", "f5", "f6", "f8"],
+    "deferred": ["f7"],
+    "cut_rationale": "es1=B ratified: recruiter-only MVP (f1-f6,f8) fits c2; client view f7 is v1.1 (ng5). f8 (fairness) added to MVP per es2=A — low build cost, TalentOS already provides the audit, and it de-risks g2 for a hiring product.",
+    "roadmap": {"f7": "v1.1 — first fast-follow (client portal + its external auth boundary)"}
+  },
+  "gaps_to_clarify": [
+    {"id": "gap2", "text": "Resume ingestion path (manual upload vs email ingest) shapes f2's size — assuming manual upload for MVP.", "blocks": false}
+  ],
+  "challenges_to_brief": [],
+  "complexity_justification": []
+}

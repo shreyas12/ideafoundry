@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "run_id": "ats-talentos-run",
+  "profile": "internal-tool",
+  "roster": ["pm", "engineer", "ux", "security"],
+  "complexity_ceiling_ref": "roster/profiles/internal-tool.yaml",
+  "brief_ref": "planning/brief.json",
+  "phase": "consensus-complete",
+  "generated_by": "IdeaFoundry",
+  "note": "Real run (not authored). Re-anchor source for every specialist turn: this file + brief.json + declared deps ONLY."
+}

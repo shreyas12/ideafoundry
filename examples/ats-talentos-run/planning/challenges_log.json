@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "note": "medium/low challenges — logged, NOT surfaced to the user (materiality gate). Kept for the record and for Amendment.",
+  "logged": [
+    {"role": "pm", "brief_section_id": "brief.assumptions.a3", "concern": "Clients wanting a self-serve portal is unvalidated and justifies f7's whole auth surface.", "recommendation": "Validate a3 with one real client before building f7.", "impact": "medium"},
+    {"role": "ux", "brief_section_id": "brief.assumptions.a2", "concern": "Recruiters won't act on a black-box rank; g2 value dies without visible evidence.", "recommendation": "Make TalentOS evidence/explanation first-class in the shortlist UI.", "impact": "medium"},
+    {"role": "engineer", "brief_section_id": "brief.risks.r1", "concern": "r1 (TalentOS coupling) is real but contained by the adapter + contract test; not a reason to fork/rebuild.", "recommendation": "Accept r1 with adapter mitigation; keep reuse.", "impact": "low"}
+  ]
+}
